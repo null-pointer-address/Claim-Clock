@@ -12,6 +12,8 @@ const volumeSlider = document.getElementById('volumeSlider');
 const volumeLabel = document.getElementById('volumeLabel');
 const youtubeUrl = document.getElementById('youtubeUrl');
 const openMusicBtn = document.getElementById('openMusic');
+const youtubeFrame = document.getElementById('youtubeFrame');
+const youtubeEmbed = document.getElementById('youtubeEmbed');
 
 let mode = 'focus';
 let remainingSeconds = 30 * 60;
@@ -116,15 +118,47 @@ openMusicBtn.addEventListener('click', () => {
   if (!url) return;
   try {
     const parsed = new URL(url);
-    if (!parsed.hostname.includes('youtube.com') && !parsed.hostname.includes('youtu.be')) {
+    const isYT = parsed.hostname.includes('youtube.com') || parsed.hostname.includes('youtu.be');
+    if (!isYT) {
       alert('Please paste a valid YouTube link.');
       return;
     }
-    window.open(url, '_blank');
+    const yt = extractYouTubeTarget(parsed);
+    if (!yt) {
+      alert('Could not read the video ID.');
+      return;
+    }
+    const embedUrl = yt.type === 'playlist'
+      ? `https://www.youtube.com/embed?listType=playlist&list=${yt.id}&autoplay=1&rel=0&playsinline=1`
+      : `https://www.youtube.com/embed/${yt.id}?autoplay=1&rel=0&playsinline=1`;
+    youtubeFrame.src = embedUrl;
+    youtubeFrame.style.height = '100%';
+    youtubeEmbed.querySelector('.embed-placeholder').style.display = 'none';
   } catch (e) {
     alert('Please paste a valid YouTube link.');
   }
 });
+
+function extractYouTubeTarget(parsedUrl) {
+  // playlists
+  if (parsedUrl.searchParams.get('list')) {
+    return { type: 'playlist', id: parsedUrl.searchParams.get('list') };
+  }
+  // youtu.be short
+  if (parsedUrl.hostname.includes('youtu.be')) {
+    const id = parsedUrl.pathname.slice(1);
+    return id ? { type: 'video', id } : null;
+  }
+  // standard watch
+  if (parsedUrl.searchParams.get('v')) {
+    return { type: 'video', id: parsedUrl.searchParams.get('v') };
+  }
+  // shorts or embed path
+  const parts = parsedUrl.pathname.split('/').filter(Boolean);
+  if (parts[0] === 'shorts' && parts[1]) return { type: 'video', id: parts[1] };
+  if (parts[0] === 'embed' && parts[1]) return { type: 'video', id: parts[1] };
+  return null;
+}
 
 volumeSlider.addEventListener('input', () => {
   const value = Number(volumeSlider.value);
