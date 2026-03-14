@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calm Clock Pomodoro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div class="hero__text">
+        <p class="eyebrow">Focus + rhythm</p>
+        <h1>Pomodoro timer with a calm tick-tock</h1>
+        <p class="lede">Choose a focus or break length, keep the ambient clock, and optionally open your favorite YouTube music.</p>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="time-display" aria-live="polite">
+        <span id="sessionLabel">Focus</span>
+        <div id="time" class="clock">30:00</div>
+        <div id="status" class="status">Paused</div>
+      </div>
+
+      <div class="controls">
+        <div class="control-group">
+          <label for="focusSelect">Focus sessions</label>
+          <select id="focusSelect">
+            <option value="30">30 min</option>
+            <option value="45">45 min</option>
+            <option value="60">60 min</option>
+            <option value="90">90 min</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="breakSelect">Break sessions</label>
+          <select id="breakSelect">
+            <option value="5">5 min</option>
+            <option value="10">10 min</option>
+            <option value="15">15 min</option>
+          </select>
+        </div>
+        <div class="control-group stack">
+          <span class="label">Session type</span>
+          <div class="chips" role="group" aria-label="Session type">
+            <button class="chip active" data-mode="focus" id="focusMode">Focus</button>
+            <button class="chip" data-mode="break" id="breakMode">Break</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="startPause" class="primary">Start</button>
+        <button id="reset" class="ghost">Reset</button>
+      </div>
+
+      <div class="sound-row">
+        <label class="toggle">
+          <input type="checkbox" id="muteToggle" />
+          <span class="slider"></span>
+          <span class="label">Mute tick-tock</span>
+        </label>
+        <div class="inline">
+          <label for="volumeSlider">Tick volume</label>
+          <div class="slider-row">
+            <input id="volumeSlider" type="range" min="0" max="100" value="35" />
+            <span id="volumeLabel" class="muted">35%</span>
+          </div>
+        </div>
+        <div class="inline">
+          <label for="youtubeUrl">YouTube music (optional)</label>
+          <div class="input-row">
+            <input id="youtubeUrl" type="url" placeholder="Paste a YouTube link to open" />
+            <button id="openMusic" class="tiny">Open</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
