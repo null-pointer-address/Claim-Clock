@@ -72,10 +72,14 @@
           </div>
         </div>
         <div class="inline">
-          <label for="youtubeUrl">YouTube music (optional)</label>
+          <label for="youtubeUrl">YouTube music (inline)</label>
           <div class="input-row">
-            <input id="youtubeUrl" type="url" placeholder="Paste a YouTube link to open" />
-            <button id="openMusic" class="tiny">Open</button>
+            <input id="youtubeUrl" type="url" placeholder="Paste a YouTube link to embed" />
+            <button id="openMusic" class="tiny">Load</button>
+          </div>
+          <div class="embed-shell" id="youtubeEmbed">
+            <div class="embed-placeholder">Paste a YouTube link and hit Load.</div>
+            <iframe id="youtubeFrame" title="YouTube music" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
         </div>
       </div>
