@@ -131,6 +131,16 @@ input[type='url'] {
   font-size: 1rem;
 }
 
+select option {
+  color: var(--text);
+  background: #0f1a2c;
+}
+
+select option:checked {
+  color: #0b1221;
+  background: var(--accent);
+}
+
 select:focus,
 input[type='url']:focus {
   outline: 2px solid var(--accent);
